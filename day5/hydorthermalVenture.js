@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const sample = "day5/test.txt";
-const filename    = "day5/input.txt";
+const filename = "day5/input.txt";
 
 fs.readFile(filename, "utf-8", (err, data) => {
     if (err) {
@@ -21,8 +21,6 @@ function buildBoard(lines) {
     var position = {};
     var pointOverlap = 0;
     for (var line of lines) {
-        // var ss = line.replace(/\s/g, "")
-
         var line = line.split(" -> ");
         var currentLine = new Line(line);
         var curLinePoints = getPointsInLine(currentLine);
@@ -52,7 +50,7 @@ function getPointsInLine(aLine) {
                 result.push(new Point([startX, i]));
             }
         }
-    } else if(startY == endY) {
+    } else if (startY == endY) {
         if (startX < endX) {
             for (let i = startX; i <= endX; i++) {
                 result.push(new Point([i, startY]));
@@ -60,6 +58,17 @@ function getPointsInLine(aLine) {
         } else {
             for (let i = endX; i <= startX; i++) {
                 result.push(new Point([i, startY]));
+            }
+        }
+    } else {
+        const pointDistanceX = endX - startX;
+        const pointDistanceY = endY - startY;
+        const iter = Math.abs(pointDistanceX);
+        if (Math.abs(pointDistanceX) === Math.abs(pointDistanceY)) {
+            for (let i = 0; i <= iter; i++) {
+                let xoffset = pointDistanceX < 0 ? -i : i;
+                let yoffset = pointDistanceY < 0 ? -i : i;
+                result.push(new Point([startX + xoffset, startY + yoffset]));
             }
         }
     }
@@ -73,9 +82,6 @@ function getPointsInLine(aLine) {
  */
 function addToBoard(board, points, pointOverlap) {
     for (var point of points) {
-        var x = point.x;
-        var y = point.y;
-        // if (typeof board[x][y] == "undefined") {
         if (!(point.strVal in board)) {
             board[point.strVal] = 1;
         } else if (board[point.strVal] === 1) {
