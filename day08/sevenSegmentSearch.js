@@ -8,9 +8,9 @@ fs.readFile(path.join(__dirname, filename), "utf-8", (err, data) => {
     if (err) {
         console.error(err);
     }
-    var lines = data.split(/\n/);
-    var result = part1(lines);
-    var result2 = part2(lines);
+    let lines = data.split(/\n/);
+    const result = part1(lines);
+    let result2 = part2(lines);
     console.log(`${result} is the number of 1 2, 7 , 8 `);
     console.log(`${result2} is where the crabs align at `);
 });
@@ -21,7 +21,7 @@ fs.readFile(path.join(__dirname, filename), "utf-8", (err, data) => {
  */
 function part1(lines) {
     const segment1478 = [2, 4, 3, 7];
-    var numAppear = 0;
+    let numAppear = 0;
 
     for (let line of lines) {
         let [_, output] = line.split("|").map((x) => x.trim());
@@ -38,16 +38,15 @@ function part1(lines) {
  * @param {string} line
  */
 function parseLine(line) {
-    var temp = line.split(" | ");
-    var [patterns, output] = temp.map((x) => {
+
+    let [patterns, output] = line.split(" | ").map((x) => {
         x = x.trim();
         return x.split(" ");
     });
 
-    var pDict = {};
-    var temp = [];
+    let pDict = {};
     for (let i = 0; i < patterns.length; i++) {
-        var pat = patterns[i];
+        let pat = patterns[i];
         switch (pat.length) {
             case 2:
                 pDict[1] = new Set(pat);
@@ -62,11 +61,10 @@ function parseLine(line) {
                 pDict[8] = new Set(pat);
                 break;
             default:
-                temp.push(pat);
                 break;
         }
     }
-    var numStr = "";
+    let numStr = "";
 
     for (let value of output) {
         let vSet = new Set(value);
@@ -110,7 +108,7 @@ function parseLine(line) {
 }
 
 function intersectLen(setA, setB) {
-    var _intersection = new Set();
+    let _intersection = new Set();
     for (let elem of setB) {
         if (setA.has(elem)) {
             _intersection.add(elem);
@@ -120,7 +118,7 @@ function intersectLen(setA, setB) {
 }
 
 function unionLen(setA, setB) {
-    var _union = new Set(setA);
+    let _union = new Set(setA);
     for (let elem of setB) {
         _union.add(elem);
     }
@@ -128,7 +126,7 @@ function unionLen(setA, setB) {
 }
 
 function part2(input) {
-    result = 0;
+    let result = 0;
     for (let line of input) {
         let lineVal = parseLine(line);
         result += lineVal;
